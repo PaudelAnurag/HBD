@@ -454,7 +454,7 @@ HTML = """<!DOCTYPE html>
       <div style="text-align:center;font-size:13px;color:rgba(90,42,58,0.3);margin-bottom:6px;">✦ + ✦</div>
       <div class="letter-date">May 25</div>
       <div style="display:flex;justify-content:space-between;font-size:18px;margin-bottom:14px;"><span>🌸</span><span>🌼</span><span>🌺</span></div>
-      <div class="letter-dear">Dear and Rhino Pranzxsss Gundini,</div>
+      <div class="letter-dear">Dear Pranzxsss,</div>
       <div class="letter-body">
         <p>On this most special day, I want you to know that every single day with you is a gift beyond measure. You bring light into every corner of my life — even on the darkest days.</p>
         <p>Your laughter is the most beautiful music I have ever heard. The way you see the world — with wonder and kindness — inspires me to be better every single day.</p>
