@@ -30,7 +30,7 @@ for p in PHOTOS:
 import json
 PHOTOS_JSON = json.dumps(PHOTOS, ensure_ascii=False)
 
-st.set_page_config(page_title="For You, My Love", layout="centered")
+st.set_page_config(page_title="For You, Idiot", layout="centered")
 
 st.markdown("""
 <style>
@@ -305,7 +305,7 @@ HTML = """<!DOCTYPE html>
 <div id="pinScreen">
   <div class="card" id="card">
     <span class="top-flower-icon">🌸</span>
-    <div class="card-title">For You, My Love</div>
+    <div class="card-title">For You, Idiot</div>
     <div class="card-sub">Enter our secret code</div>
     <div class="pin-dots">
       <div class="pin-dot" id="d0"></div><div class="pin-dot" id="d1"></div>
@@ -326,7 +326,7 @@ HTML = """<!DOCTYPE html>
       <button class="num-btn" onclick="press('0')">0</button>
       <button class="num-btn enter-btn" onclick="enter()">↵</button>
     </div>
-    <div class="hint">Hint: our special date 💕</div>
+    <div class="hint">Hint: DDMMYY💕</div>
   </div>
 </div>
 
