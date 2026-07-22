@@ -1,5 +1,34 @@
 import streamlit as st
 import streamlit.components.v1 as components
+import base64, mimetypes, os
+
+def file_to_data_uri(path):
+    """Turn local file into data URI so browser iframe can play it (no server path works otherwise)."""
+    if not path or path.startswith(("http://","https://","data:")):
+        return path
+    if not os.path.exists(path):
+        return ""  # file missing — leave empty, won't crash
+    mime = mimetypes.guess_type(path)[0] or "application/octet-stream"
+    with open(path, "rb") as f:
+        b64 = base64.b64encode(f.read()).decode()
+    return f"data:{mime};base64,{b64}"
+
+FINAL_VIDEO_SRC = file_to_data_uri("assets/video/pranz.mp4")
+
+PHOTOS = [
+    {"src": "assets/img/pic1.jpeg", "caption": "Kata hereko ho kunni"},
+    {"src": "assets/img/pic2.jpeg", "caption": "Nasalu Ankha"},
+    {"src": "assets/img/pic3.jpeg", "caption": "Beauty with cloudy "},
+    {"src": "assets/img/pic4.jpeg", "caption": "Women In Black"},
+    {"src": "assets/img/pic5.jpeg", "caption": "Chasma Chai Ho K"},
+    {"src": "assets/img/pic6.jpeg", "caption": "Yo xai mero fav"},
+    {"src": "assets/img/pic7.jpeg", "caption": "Mirror Selfie eklai??"},
+]
+for p in PHOTOS:
+    p["src"] = file_to_data_uri(p["src"])
+
+import json
+PHOTOS_JSON = json.dumps(PHOTOS, ensure_ascii=False)
 
 st.set_page_config(page_title="For You, My Love", layout="centered")
 
@@ -139,12 +168,12 @@ HTML = """<!DOCTYPE html>
   .photos-tag{font-size:11px;letter-spacing:3px;color:rgba(255,200,220,0.5);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
   .photos-title{font-family:'Playfair Display',serif;font-size:34px;color:#fff;text-align:center;margin-bottom:8px;}
   .photos-sub{font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:44px;font-style:italic;}
-  .polaroid-wrap{position:relative;width:100%;max-width:320px;margin-bottom:36px;cursor:pointer;}
-  .polaroid{background:#fff;padding:14px 14px 48px;border-radius:4px;box-shadow:0 12px 40px rgba(0,0,0,0.45);position:relative;}
+  .polaroid-wrap{position:relative;width:150px;margin:0 10px 30px;cursor:pointer;}
+  .polaroid{background:#fff;padding:8px 8px 34px;border-radius:4px;box-shadow:0 12px 40px rgba(0,0,0,0.45);position:relative;}
   .polaroid-wrap:nth-child(odd) .polaroid{transform:rotate(-2.5deg);}
   .polaroid-wrap:nth-child(even) .polaroid{transform:rotate(2.5deg);}
-  .polaroid-img{width:100%;height:200px;border-radius:2px;background:#e8d5e0;display:flex;align-items:center;justify-content:center;font-size:60px;}
-  .polaroid-caption{font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:#5a2a3a;text-align:center;position:absolute;bottom:10px;left:0;right:0;padding:0 10px;}
+  .polaroid-img{width:100%;height:130px;border-radius:2px;background:#e8d5e0;display:flex;align-items:center;justify-content:center;font-size:38px;overflow:hidden;}
+  .polaroid-caption{font-family:'Playfair Display',serif;font-style:italic;font-size:11px;color:#5a2a3a;text-align:center;position:absolute;bottom:6px;left:0;right:0;padding:0 4px;}
   .tape{position:absolute;top:-10px;left:50%;transform:translateX(-50%);width:50px;height:20px;background:rgba(255,240,200,0.6);border-radius:2px;z-index:2;}
   .photo-deco{position:absolute;font-size:16px;pointer-events:none;animation:flFloat 4s ease-in-out infinite;}
   #lightbox{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.88);display:none;align-items:center;justify-content:center;flex-direction:column;backdrop-filter:blur(8px);padding:20px;}
@@ -342,9 +371,9 @@ HTML = """<!DOCTYPE html>
     <div class="bd-tag">— Your Special Day —</div>
     <div class="bd-happy">Happy</div>
     <div class="bd-birthday">Birthday</div>
-    <div class="bd-name">Ciwa</div>
+    <div class="bd-name">Pranzsss</div>
     <div class="bd-divider"></div>
-    <div class="bd-date">JUNE 10 · THE MOST SPECIAL DAY</div>
+    <div class="bd-date">MAY 25 · THE MOST SPECIAL DAY</div>
     <div class="scroll-down-hint"><div class="arrow-d"></div><span>SCROLL</span></div>
   </div>
 
@@ -425,15 +454,15 @@ HTML = """<!DOCTYPE html>
       <div style="text-align:center;font-size:13px;color:rgba(90,42,58,0.3);margin-bottom:6px;">✦ + ✦</div>
       <div class="letter-date">June 10</div>
       <div style="display:flex;justify-content:space-between;font-size:18px;margin-bottom:14px;"><span>🌸</span><span>🌼</span><span>🌺</span></div>
-      <div class="letter-dear">My dearest Ciwa,</div>
+      <div class="letter-dear">Dear and Rhino Pranzxsss Gundini,</div>
       <div class="letter-body">
         <p>On this most special day, I want you to know that every single day with you is a gift beyond measure. You bring light into every corner of my life — even on the darkest days.</p>
         <p>Your laughter is the most beautiful music I have ever heard. The way you see the world — with wonder and kindness — inspires me to be better every single day.</p>
-        <p>Happy Birthday, my love. Today and every day, I am so grateful that you exist. 🌸</p>
+        <p>Happy Birthday, Idiot. Today and every day, I am so grateful that you exist. 🌸</p>
         <p>May this day bring you all the joy, warmth, and magic that you bring to my life — and so much more.</p>
       </div>
       <div style="display:flex;justify-content:space-between;font-size:16px;margin:16px 0 8px;"><span>🌹</span><span>💕</span><span>🌷</span></div>
-      <div class="letter-sig">Forever yours, with all my love 💖</div>
+      <div class="letter-sig">Wishing u all the best, with all happiness 💖</div>
     </div>
   </div>
 
@@ -442,12 +471,7 @@ HTML = """<!DOCTYPE html>
     <div class="photos-tag">— A COLLECTION OF MEMORIES —</div>
     <div class="photos-title">Our Photo Memories</div>
     <div class="photos-sub">Every picture holds a beautiful story</div>
-    <div class="polaroid-wrap" onclick="openLightbox(0)"><div class="tape"></div><div class="polaroid"><div class="polaroid-img">🌅</div><div class="polaroid-caption">Our very first sunset together</div></div><span class="photo-deco" style="top:-8px;right:8px;animation-delay:0.3s;">🌸</span></div>
-    <div class="polaroid-wrap" onclick="openLightbox(1)"><div class="tape"></div><div class="polaroid"><div class="polaroid-img">☕</div><div class="polaroid-caption">Our favourite café in the city</div></div><span class="photo-deco" style="bottom:-8px;left:8px;animation-delay:0.8s;">🌺</span></div>
-    <div class="polaroid-wrap" onclick="openLightbox(2)"><div class="tape"></div><div class="polaroid"><div class="polaroid-img">🌙</div><div class="polaroid-caption">Late night talks under the stars</div></div><span class="photo-deco" style="top:-8px;right:8px;animation-delay:0.5s;">✿</span></div>
-    <div class="polaroid-wrap" onclick="openLightbox(3)"><div class="tape"></div><div class="polaroid"><div class="polaroid-img">🎂</div><div class="polaroid-caption">The birthday that changed everything</div></div><span class="photo-deco" style="bottom:-8px;right:8px;animation-delay:1.1s;">🌼</span></div>
-    <div class="polaroid-wrap" onclick="openLightbox(4)"><div class="tape"></div><div class="polaroid"><div class="polaroid-img">🌊</div><div class="polaroid-caption">Where the waves met our laughter</div></div><span class="photo-deco" style="top:-8px;left:8px;animation-delay:0.2s;">🌷</span></div>
-    <div class="polaroid-wrap" onclick="openLightbox(5)"><div class="tape"></div><div class="polaroid"><div class="polaroid-img">💐</div><div class="polaroid-caption">The day you smiled like that</div></div><span class="photo-deco" style="bottom:-8px;left:10px;animation-delay:0.7s;">🌹</span></div>
+    <div id="photosContainer" style="display:flex;flex-wrap:wrap;justify-content:center;max-width:400px;"></div>
   </div>
 
   <!-- SEC 5: JOURNEY -->
@@ -458,10 +482,10 @@ HTML = """<!DOCTYPE html>
     <div class="timeline">
       <div class="tl-item"><div class="tl-dot"></div><div class="tl-card"><div class="tl-icon">✨</div><div class="tl-label">The Very Beginning</div><div class="tl-heading">First Time We Met</div><div class="tl-body">The day the world seemed to spin a little faster and everything felt different from before.</div></div></div>
       <div class="tl-item"><div class="tl-dot"></div><div class="tl-card"><div class="tl-icon">💬</div><div class="tl-label">A Magical Moment</div><div class="tl-heading">Our First Conversation</div><div class="tl-body">The first words spoken, the first laughter shared — the beginning of thousands of stories we would write together.</div></div></div>
-      <div class="tl-item"><div class="tl-dot"></div><div class="tl-card"><div class="tl-icon">🌅</div><div class="tl-label">A Cherished Memory</div><div class="tl-heading">Our First Sunset</div><div class="tl-body">Side by side, watching the sky turn golden — I knew in that moment that I never wanted to be anywhere else.</div></div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-card"><div class="tl-icon">🌅</div><div class="tl-label">A Cherished Memory</div><div class="tl-heading">Our First Call</div><div class="tl-body">Lekhda gayeb hunxau so i called u yaad xa malai</div></div></div>
       <div class="tl-item"><div class="tl-dot"></div><div class="tl-card"><div class="tl-icon">☕</div><div class="tl-label">Our Little World</div><div class="tl-heading">The Café in the Corner</div><div class="tl-body">Our table. Our orders. Our conversations that stretched from morning into evening. That place will always be ours.</div></div></div>
       <div class="tl-item"><div class="tl-dot"></div><div class="tl-card"><div class="tl-icon">🌙</div><div class="tl-label">Quiet and Precious</div><div class="tl-heading">Late Night Talks</div><div class="tl-body">When the world was asleep and it was just us — sharing our dreams, fears, and everything in between.</div></div></div>
-      <div class="tl-item"><div class="tl-dot"></div><div class="tl-card"><div class="tl-icon">💖</div><div class="tl-label">Today and Always</div><div class="tl-heading">Happy Birthday, Ciwa</div><div class="tl-body">Every chapter of our story is my favourite. I cannot wait to write every single one that comes next — with you. 🌸</div></div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-card"><div class="tl-icon">💖</div><div class="tl-label">Today and Always</div><div class="tl-heading">Happy Birthday, Pranzssss</div><div class="tl-body">Every chapter of our story is my favourite. I cannot wait to write every single one that comes next — with you. 🌸</div></div></div>
     </div>
     <div class="end-row">🌸 💖 🌸</div>
   </div>
@@ -487,7 +511,7 @@ HTML = """<!DOCTYPE html>
         </div>
         <span class="video-tap-hint" id="videoTapHint">Tap to play</span>
       </div>
-      <div class="song-title" id="songTitle">Track 1</div>
+      <div class="song-title" id="songTitle">Be my Baby</div>
       <div class="song-artist" id="songArtist">Tap the video to play right here</div>
     </div>
 
@@ -546,7 +570,7 @@ HTML = """<!DOCTYPE html>
         <div class="final-cake">🎂</div>
       </div>
       <div class="final-title">Happy Birthday!</div>
-      <div class="final-sub">The most special Ciwa 🌸</div>
+      <div class="final-sub">The most special Pranzzssssssssssssssssssssssss 🌸</div>
       <button class="final-close" onclick="closeFinalCard()">Close ✕</button>
     </div>
 
@@ -585,15 +609,19 @@ const CONFIG = {
   // type: "video" or "image"
   finalMedia: {
     type: "video",
-    src: ""   // put your video (or image) URL / path here
+    src: "%%FINAL_VIDEO_SRC%%"   // put your video (or image) URL / path here
   },
 
   // Songs — paste any full YouTube URL (youtu.be/..., watch?v=..., or embed/...)
   // "name" is shown as the title and in the playlist.
   songs: [
-    { url: "https://www.youtube.com/watch?v=JGwWNGJdvx8", name: "Shape Of You" },
-    { url: "https://www.youtube.com/watch?v=p-pfPYWjUBY", name: "All I Dream Of Is Your Eyes" }
-  ]
+    { url: "https://www.youtube.com/watch?v=4tPJPE4uOEo", name: "Be My baby" },
+    { url: "https://www.youtube.com/watch?v=p-pfPYWjUBY", name: "All I dream of is your eyes" }
+  ],
+
+  // Photo memories — one card per entry. "src" can be an emoji (shown big)
+  // or an image URL/data-URI (jpg/png/etc).
+  photos: %%PHOTOS_JSON%%
 };
 
 // Pulls the 11-char YouTube video ID out of any common URL shape
@@ -648,9 +676,42 @@ const FLOWER_MSGS=["🌸 You are the most beautiful person I have ever known.","
 document.querySelectorAll(".sc-outer").forEach(el=>{el.addEventListener("click",function(e){e.stopPropagation();const idx=parseInt(this.dataset.msg);this.classList.remove("bloom-once");void this.offsetWidth;this.classList.add("bloom-once");setTimeout(()=>this.classList.remove("bloom-once"),520);miniBloom(this);const msgEl=document.getElementById("msgText");msgEl.classList.add("fade");setTimeout(()=>{msgEl.textContent=FLOWER_MSGS[idx]||FLOWER_MSGS[0];msgEl.classList.remove("fade");},420);});});
 function miniBloom(el){const rect=el.getBoundingClientRect(),cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;const ems=["🌸","💕","✿","❀","💗","✦","🌺","🌼"];for(let i=0;i<7;i++){const s=document.createElement("span");s.textContent=ems[Math.floor(Math.random()*ems.length)];s.style.cssText=`position:fixed;left:${cx}px;top:${cy}px;font-size:${13+Math.random()*10}px;pointer-events:none;z-index:300;transition:all 0.7s ease;transform:translate(-50%,-50%);`;document.body.appendChild(s);requestAnimationFrame(()=>{const a=Math.random()*Math.PI*2,d=55+Math.random()*65;s.style.transform=`translate(${Math.cos(a)*d-14}px,${Math.sin(a)*d-14}px)`;s.style.opacity="0";});setTimeout(()=>s.remove(),760);}}
 
-// ══ LIGHTBOX ══
-const PHOTOS=[{emoji:"🌅",caption:"Our very first sunset together"},{emoji:"☕",caption:"Our favourite café in the city"},{emoji:"🌙",caption:"Late night talks under the stars"},{emoji:"🎂",caption:"The birthday that changed everything"},{emoji:"🌊",caption:"Where the waves met our laughter"},{emoji:"💐",caption:"The day you smiled like that"}];
-function openLightbox(idx){document.getElementById("lbEmoji").textContent=PHOTOS[idx].emoji;document.getElementById("lbCaption").textContent=PHOTOS[idx].caption;document.getElementById("lightbox").classList.add("open");}
+// ══ PHOTO MEMORIES (built from CONFIG.photos) ══
+const DECOS=["🌸","🌺","✿","🌼","🌷","🌹"];
+// FIX: data: URIs weren't matched before, so base64 image strings were
+// dumped into the DOM as raw text instead of rendered as <img>.
+function isImageSrc(src){
+  return /^data:image\//i.test(src) || /^(https?:)?\/\//.test(src) || /\.(png|jpe?g|gif|webp|svg)(\?.*)?$/i.test(src);
+}
+
+function buildPolaroids(){
+  const container=document.getElementById("photosContainer");
+  container.innerHTML = CONFIG.photos.map((p,i)=>{
+    const side = i%2===0 ? "right" : "left";
+    const vOff = i%2===0 ? "top:-8px;" : "bottom:-8px;";
+    const inner = isImageSrc(p.src)
+      ? '<img src="'+p.src+'" alt="memory photo" style="width:100%;height:100%;object-fit:cover;border-radius:2px;"/>'
+      : p.src;
+    return '<div class="polaroid-wrap" onclick="openLightbox('+i+')"><div class="tape"></div>'+
+      '<div class="polaroid"><div class="polaroid-img">'+inner+'</div>'+
+      '<div class="polaroid-caption">'+p.caption+'</div></div>'+
+      '<span class="photo-deco" style="'+vOff+side+':8px;animation-delay:'+(i*0.3)+'s;">'+DECOS[i%DECOS.length]+'</span></div>';
+  }).join('');
+}
+buildPolaroids();
+
+function openLightbox(idx){
+  const p=CONFIG.photos[idx];
+  const lbEmoji=document.getElementById("lbEmoji");
+  if(isImageSrc(p.src)){
+    lbEmoji.innerHTML='<img src="'+p.src+'" alt="memory photo" style="width:100%;height:100%;object-fit:cover;border-radius:2px;"/>';
+  }else{
+    lbEmoji.innerHTML='';
+    lbEmoji.textContent=p.src;
+  }
+  document.getElementById("lbCaption").textContent=p.caption;
+  document.getElementById("lightbox").classList.add("open");
+}
 function closeLightbox(){document.getElementById("lightbox").classList.remove("open");}
 
 // ══ CONFETTI ══
@@ -830,4 +891,6 @@ function closeFinalCard(){
 </body>
 </html>"""
 
+HTML = HTML.replace("%%FINAL_VIDEO_SRC%%", FINAL_VIDEO_SRC)
+HTML = HTML.replace("%%PHOTOS_JSON%%", PHOTOS_JSON)
 components.html(HTML, height=780, scrolling=True)
